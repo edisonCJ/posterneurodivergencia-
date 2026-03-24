@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Póster — Neurodivergencia y Derecho</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #0e0f11;
+  --surface:  #141618;
+  --border:   #222428;
+  --border-h: #333740;
+  --text:     #e2e4e8;
+  --muted:    #5a5f6b;
+  --accent:   #c8a96e;
+  --accent2:  #7eb8c9;
+  --white:    #f5f6f7;
+  --danger:   #c97e7e;
+  --green:    #7ec9a0;
+  --r: 4px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* subtle noise texture */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; opacity: 0.4;
+}
+
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 56px 32px 80px;
+  position: relative; z-index: 1;
+}
+
+/* ── HEADER ── */
+.header { margin-bottom: 56px; }
+
+.meta-row {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 24px;
+}
+.pill {
+  display: inline-block;
+  border: 1px solid var(--border-h);
+  padding: 3px 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 1.5px;
+  color: var(--muted); text-transform: uppercase;
+  border-radius: 2px;
+}
+.pill-accent { border-color: var(--accent); color: var(--accent); }
+
+h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(24px, 3.5vw, 42px);
+  font-weight: 400; line-height: 1.15;
+  color: var(--white);
+  margin-bottom: 10px;
+  letter-spacing: -0.5px;
+}
+h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.subtitle {
+  font-size: 15px; color: var(--muted);
+  margin-bottom: 28px; font-weight: 300;
+}
+
+.authors-row {
+  display: flex; flex-wrap: wrap; gap: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.author {
+  font-size: 13px; color: var(--muted);
+  font-family: 'DM Mono', monospace;
+}
+.author strong { color: var(--text); font-weight: 500; }
+.author a { color: var(--accent2); text-decoration: none; }
+
+/* ── STAT STRIP ── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
+  border: 1px solid var(--border);
+  margin-bottom: 48px;
+  border-radius: var(--r);
+  overflow: hidden;
+}
+.stat {
+  padding: 24px 16px;
+  border-right: 1px solid var(--border);
+  text-align: center;
+  transition: background 0.2s;
+  cursor: default;
+}
+.stat:last-child { border-right: none; }
+.stat:hover { background: var(--surface); }
+.stat-n {
+  display: block;
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(28px,3.5vw,44px);
+  line-height: 1; margin-bottom: 6px;
+  color: var(--white);
+}
+.stat-n sup {
+  font-size: 0.45em; vertical-align: super;
+  color: var(--accent); font-family: 'DM Mono', monospace;
+}
+.stat-l {
+  font-size: 11px; color: var(--muted);
+  line-height: 1.4; font-weight: 400;
+}
+.s1 .stat-n { color: var(--accent2); }
+.s2 .stat-n { color: var(--accent); }
+.s3 .stat-n { color: var(--danger); }
+.s4 .stat-n { color: var(--green); }
+.s5 .stat-n { color: var(--danger); }
+
+/* ── TABS ── */
+.tabs-nav {
+  display: flex; gap: 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0; overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs-nav::-webkit-scrollbar { display: none; }
+
+.tab-btn {
+  background: none; border: none;
+  padding: 12px 18px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted); cursor: pointer;
+  border-bottom: 2px solid transparent;
+  position: relative; top: 1px;
+  transition: color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.tab-pane { display: none; padding: 40px 0; }
+.tab-pane.active {
+  display: block;
+  animation: appear 0.3s ease;
+}
+@keyframes appear {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── SHARED COMPONENTS ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 28px;
+  transition: border-color 0.2s;
+}
+.card:hover { border-color: var(--border-h); }
+
+.card-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.card-label::before {
+  content: ''; display: block;
+  width: 16px; height: 1px; background: var(--accent);
+}
+
+.card p, .card li {
+  font-size: 14px; color: var(--text);
+  line-height: 1.8; font-weight: 300;
+}
+.card ul { padding-left: 18px; }
+.card li { margin-bottom: 6px; }
+
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.g3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.g4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+.gap { margin-bottom: 16px; }
+
+/* divider */
+.div-line {
+  height: 1px; background: var(--border);
+  margin: 32px 0;
+}
+
+/* section title */
+.sec-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px; font-weight: 400;
+  color: var(--white); margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── ABSTRACT ── */
+.abstract {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent);
+  border-radius: var(--r);
+  padding: 28px 32px;
+  margin-bottom: 20px;
+}
+.abstract p {
+  font-size: 14px; line-height: 1.9;
+  color: var(--text); font-weight: 300;
+}
+
+.kws {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-top: 16px;
+}
+.kw {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 1px;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 3px 10px; border-radius: 2px;
+  transition: all 0.2s;
+}
+.kw:hover { color: var(--accent); border-color: var(--accent); }
+
+/* open data block */
+.open-data {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent2);
+  border-radius: var(--r);
+  padding: 24px 28px;
+  margin-top: 20px;
+}
+.open-data p {
+  font-size: 13px; line-height: 1.8;
+  color: var(--muted); margin-bottom: 12px;
+}
+.open-data p:last-child { margin-bottom: 0; }
+.open-data a {
+  color: var(--accent2); text-decoration: none;
+  font-family: 'DM Mono', monospace; font-size: 11px;
+}
+.open-data a:hover { text-decoration: underline; }
+.open-data strong { color: var(--text); font-weight: 500; }
+
+/* ── METHOD CARDS ── */
+.m-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 20px; text-align: center;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.m-card:hover {
+  border-color: var(--border-h);
+  transform: translateY(-2px);
+}
+.m-val {
+  font-family: 'DM Serif Display', serif;
+  font-size: 32px; color: var(--white);
+  display: block; margin-bottom: 4px; line-height: 1;
+}
+.m-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 2px;
+  color: var(--muted); text-transform: uppercase;
+}
+
+/* blocks */
+.b-row {
+  display: grid; grid-template-columns: repeat(5,1fr);
+  gap: 8px; margin-top: 16px;
+}
+.b-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px 10px; text-align: center;
+  transition: border-color 0.2s;
+  cursor: default;
+}
+.b-item:hover { border-color: var(--accent); }
+.b-n {
+  font-family: 'DM Serif Display', serif;
+  font-size: 26px; color: var(--accent);
+  display: block; margin-bottom: 6px; line-height: 1;
+}
+.b-l {
+  font-size: 11px; color: var(--muted);
+  line-height: 1.4;
+}
+
+/* ── CHARTS ── */
+.chart-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 28px; margin-bottom: 16px;
+}
+.chart-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: 24px;
+}
+
+/* bar chart */
+.bar-row {
+  display: flex; align-items: center;
+  gap: 14px; margin-bottom: 12px;
+}
+.b-lbl {
+  width: 250px; min-width: 250px;
+  font-size: 12px; color: var(--muted);
+  text-align: right; line-height: 1.3;
+}
+.b-track {
+  flex: 1; height: 24px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 2px; overflow: hidden;
+  position: relative;
+}
+.b-fill {
+  height: 100%; width: 0;
+  transition: width 1s cubic-bezier(.16,1,.3,1);
+  display: flex; align-items: center;
+  justify-content: flex-end; padding-right: 8px;
+  border-radius: 2px;
+}
+.b-fill span {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; color: var(--bg);
+  font-weight: 500; position: relative; z-index: 1;
+}
+
+/* donut charts */
+.donuts {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+}
+.d-wrap { text-align: center; }
+.d-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 2px;
+  color: var(--muted); text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.d-legend {
+  display: flex; flex-direction: column;
+  gap: 6px; align-items: flex-start;
+  margin-top: 14px; padding: 0 8px;
+}
+.d-item {
+  display: flex; align-items: center;
+  gap: 8px; font-size: 11px; color: var(--muted);
+}
+.d-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%; flex-shrink: 0;
+}
+
+/* ── DISCUSSION ── */
+.find-item {
+  display: flex; gap: 20px;
+  padding: 20px; margin-bottom: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  transition: border-color 0.2s;
+}
+.find-item:hover { border-color: var(--border-h); }
+.find-n {
+  font-family: 'DM Serif Display', serif;
+  font-size: 32px; color: var(--border-h);
+  min-width: 44px; line-height: 1;
+  flex-shrink: 0;
+}
+.find-t {
+  font-size: 13px; line-height: 1.8;
+  color: var(--text); padding-top: 4px;
+}
+.find-t strong { color: var(--accent); font-weight: 500; }
+
+/* ── CONCLUSIONS ── */
+.conc-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 12px;
+}
+.conc-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r); padding: 22px;
+  position: relative; overflow: hidden;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.conc-card:hover {
+  border-color: var(--border-h);
+  transform: translateY(-2px);
+}
+.conc-n {
+  font-family: 'DM Serif Display', serif;
+  font-size: 48px; font-weight: 400;
+  color: var(--border); position: absolute;
+  bottom: -8px; right: 10px; line-height: 1;
+  pointer-events: none;
+}
+.conc-t {
+  font-size: 13px; line-height: 1.75;
+  color: var(--text); position: relative; z-index: 1;
+}
+
+/* ── OPEN DATA (tab) ── */
+.repo-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r); padding: 24px 28px;
+  display: flex; gap: 20px; align-items: flex-start;
+  margin-bottom: 12px;
+  transition: border-color 0.2s;
+}
+.repo-card:hover { border-color: var(--border-h); }
+.repo-icon {
+  font-size: 28px; flex-shrink: 0; margin-top: 2px;
+}
+.repo-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 16px; color: var(--white);
+  margin-bottom: 4px;
+}
+.repo-desc {
+  font-size: 12px; color: var(--muted);
+  margin-bottom: 8px; line-height: 1.6;
+}
+.repo-doi {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; color: var(--accent2);
+  word-break: break-all;
+}
+
+/* ── FOOTER ── */
+.footer {
+  margin-top: 64px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between;
+  align-items: center; flex-wrap: wrap; gap: 12px;
+}
+.footer p {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 1px;
+  color: var(--muted);
+}
+
+@media (max-width: 860px) {
+  .stats { grid-template-columns: repeat(3,1fr); }
+  .g2, .donuts { grid-template-columns: 1fr; }
+  .g3, .conc-grid { grid-template-columns: 1fr 1fr; }
+  .g4 { grid-template-columns: 1fr 1fr; }
+  .b-row { grid-template-columns: repeat(3,1fr); }
+  .b-lbl { width: 130px; min-width: 130px; font-size: 10px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="meta-row">
+      <span class="pill">Estudio exploratorio</span>
+      <span class="pill">Chile · 2025</span>
+      <span class="pill pill-accent">N = 45</span>
+    </div>
+    <h1>Percepciones de estudiantes de Derecho<br>sobre la <em>Neurodivergencia</em></h1>
+    <p class="subtitle">Un estudio exploratorio en una universidad del sur de Chile</p>
+    <div class="authors-row">
+      <div class="author"><strong>Edison Carrasco-Jiménez</strong> · Investigador Principal · <a href="https://orcid.org/0000-0002-8217-1553">ORCID 0000-0002-8217-1553</a></div>
+      <div class="author"><strong>Ximena A. García-Araya</strong> · Co-investigadora · Universidad Finis Terrae / U. Andrés Bello</div>
+    </div>
+  </header>
+
+  <!-- STAT STRIP -->
+  <div class="stats">
+    <div class="stat s1">
+      <span class="stat-n" data-target="18">0<sup>%</sup></span>
+      <span class="stat-l">conoce bien el término neurodivergencia</span>
+    </div>
+    <div class="stat s2">
+      <span class="stat-n" data-target="73">0<sup>%</sup></span>
+      <span class="stat-l">se informó por redes sociales</span>
+    </div>
+    <div class="stat s3">
+      <span class="stat-n" data-target="62">0<sup>%</sup></span>
+      <span class="stat-l">nunca lo abordó en ninguna asignatura</span>
+    </div>
+    <div class="stat s4">
+      <span class="stat-n" data-target="84">0<sup>%</sup></span>
+      <span class="stat-l">considera el tema relevante para el Derecho</span>
+    </div>
+    <div class="stat s5">
+      <span class="stat-n" data-target="82">0<sup>%</sup></span>
+      <span class="stat-l">se siente poco o nada preparado/a</span>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <nav class="tabs-nav">
+    <button class="tab-btn active" data-tab="resumen">01 · Resumen</button>
+    <button class="tab-btn" data-tab="intro">02 · Introducción</button>
+    <button class="tab-btn" data-tab="metodo">03 · Metodología</button>
+    <button class="tab-btn" data-tab="resultados">04 · Resultados</button>
+    <button class="tab-btn" data-tab="discusion">05 · Discusión</button>
+    <button class="tab-btn" data-tab="conclusiones">06 · Conclusiones</button>
+    <button class="tab-btn" data-tab="datos">07 · Datos abiertos</button>
+  </nav>
+
+  <!-- TAB 01: RESUMEN -->
+  <div class="tab-pane active" id="tab-resumen">
+    <div class="abstract">
+      <p>El presente estudio explora las percepciones, conocimientos y actitudes de estudiantes de Derecho respecto a la neurodivergencia en una universidad privada del sur de Chile (N = 45). Mediante una entrevista estructurada con preguntas cerradas organizada en cinco bloques temáticos, los resultados revelan un conocimiento previo fragmentario, representaciones predominantemente deficitarias del autismo, y una percepción generalizada de insuficiencia en la formación jurídica. El 84% considera el tema relevante para el ejercicio del Derecho, pero el 82% se declara poco o nada preparado profesionalmente. Se discuten implicaciones para la reforma curricular en facultades de Derecho chilenas.</p>
+      <div class="kws">
+        <span class="kw">neurodivergencia</span>
+        <span class="kw">autismo</span>
+        <span class="kw">TDAH</span>
+        <span class="kw">formación jurídica</span>
+        <span class="kw">percepciones</span>
+        <span class="kw">educación legal</span>
+        <span class="kw">Chile</span>
+        <span class="kw">Ley N° 21.545</span>
+      </div>
+    </div>
+
+    <div class="open-data">
+      <p>Los materiales metodológicos y el conjunto de datos asociados a este estudio se encuentran disponibles en repositorios de acceso abierto.</p>
+      <p><strong>Registro del proyecto:</strong> openicpsr-247056</p>
+      <p><strong>Registro y protocolo operativo</strong> depositados en protocols.io:<br>
+        <a href="https://dx.doi.org/10.17504/protocols.io.yxmvm8bqng3p/v1">https://dx.doi.org/10.17504/protocols.io.yxmvm8bqng3p/v1</a>
+      </p>
+      <p><strong>Dataset, consentimiento informado, cuestionario y SRQR checklist</strong> depositados en Zenodo (CC BY 4.0):<br>
+        <a href="https://doi.org/10.5281/zenodo.19150079">https://doi.org/10.5281/zenodo.19150079</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- TAB 02: INTRODUCCIÓN -->
+  <div class="tab-pane" id="tab-intro">
+    <div class="g2 gap">
+      <div class="card">
+        <div class="card-label">Problema central</div>
+        <p>La neurodivergencia —que incluye el TEA, el TDAH, la dislexia y otras variaciones neurológicas— tiene relevancia jurídica creciente en Chile. Los futuros abogados interactúan cotidianamente con personas neurodivergentes como clientes, testigos, imputados o contrapartes. Sin embargo, la formación jurídica no ha integrado sistemáticamente contenidos sobre esta materia.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Marco normativo</div>
+        <p>La <strong style="color:var(--accent)">Ley N° 21.545 (2023)</strong> reconoció la plena capacidad jurídica de las personas autistas y exige accesibilidad comunicativa en los tribunales de justicia. Esta transformación normativa no ha tenido aún correlato en la formación de quienes deberán aplicarla. La CDPD (ONU, 2006) y la Ley N° 20.422 constituyen el marco internacional y nacional aplicable.</p>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="card">
+        <div class="card-label">Justificación</div>
+        <p>Las percepciones y actitudes de los estudiantes de Derecho constituyen el punto de partida ineludible para cualquier propuesta de mejora curricular. Conocer qué saben, qué creen y cómo se posicionan frente a la neurodivergencia permite identificar brechas formativas, estereotipos persistentes y oportunidades pedagógicas concretas.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Objetivo general</div>
+        <p>Explorar las percepciones de estudiantes de Derecho de una universidad privada del sur de Chile sobre la neurodivergencia, examinando su nivel de conocimiento previo, las representaciones sobre el autismo, la percepción del entorno universitario, la valoración de la formación jurídica recibida y las actitudes personales hacia personas neurodivergentes.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 03: METODOLOGÍA -->
+  <div class="tab-pane" id="tab-metodo">
+    <div class="g4 gap">
+      <div class="m-card">
+        <span class="m-val">45</span>
+        <span class="m-lbl">Participantes</span>
+      </div>
+      <div class="m-card">
+        <span class="m-val">15</span>
+        <span class="m-lbl">Ítems cerrados</span>
+      </div>
+      <div class="m-card">
+        <span class="m-val">22'</span>
+        <span class="m-lbl">Duración media</span>
+      </div>
+      <div class="m-card">
+        <span class="m-val">5</span>
+        <span class="m-lbl">Bloques temáticos</span>
+      </div>
+    </div>
+    <div class="card gap">
+      <div class="card-label">Diseño metodológico</div>
+      <p>Estudio exploratorio descriptivo con paradigma post-positivista. Entrevista estructurada con preguntas cerradas de selección múltiple, aplicada de forma individual y presencial en una universidad privada del sur de Chile (Región de los Lagos), cuya identidad se mantiene en reserva a solicitud institucional. Muestreo intencional por conveniencia. Análisis de frecuencias y porcentajes. Estándares de reporte: CROSS y SRQR.</p>
+    </div>
+    <div class="b-row">
+      <div class="b-item"><span class="b-n">B1</span><span class="b-l">Conocimiento previo</span></div>
+      <div class="b-item"><span class="b-n">B2</span><span class="b-l">Percepción del autismo</span></div>
+      <div class="b-item"><span class="b-n">B3</span><span class="b-l">Entorno universitario</span></div>
+      <div class="b-item"><span class="b-n">B4</span><span class="b-l">Formación jurídica</span></div>
+      <div class="b-item"><span class="b-n">B5</span><span class="b-l">Actitudes personales</span></div>
+    </div>
+  </div>
+
+  <!-- TAB 04: RESULTADOS -->
+  <div class="tab-pane" id="tab-resultados">
+
+    <div class="chart-box gap">
+      <div class="chart-label">B1 · Conocimiento previo del término neurodivergencia (n = 45)</div>
+      <div class="bar-row"><div class="b-lbl">Sí, y sé bien qué significa</div><div class="b-track"><div class="b-fill" data-v="17.8" style="background:var(--accent2)"><span>17.8%</span></div></div></div>
+      <div class="bar-row"><div class="b-lbl">Sí, pero no estoy seguro/a</div><div class="b-track"><div class="b-fill" data-v="46.7" style="background:var(--accent)"><span>46.7%</span></div></div></div>
+      <div class="bar-row"><div class="b-lbl">Lo he escuchado, no sé qué significa</div><div class="b-track"><div class="b-fill" data-v="24.4" style="background:var(--muted)"><span>24.4%</span></div></div></div>
+      <div class="bar-row"><div class="b-lbl">No lo había escuchado antes</div><div class="b-track"><div class="b-fill" data-v="11.1" style="background:#444"><span>11.1%</span></div></div></div>
+    </div>
+
+    <div class="chart-box gap">
+      <div class="chart-label">B2 · Características asociadas al autismo (selección múltiple, n = 45)</div>
+      <div class="bar-row"><div class="b-lbl">Dificultades en la comunicación social</div><div class="b-track"><div class="b-fill" data-v="91.1" style="background:var(--accent2)"><span>91.1%</span></div></div></div>
+      <div class="bar-row"><div class="b-lbl">Aislamiento / dificultad para relacionarse</div><div class="b-track"><div class="b-fill" data-v="75.6" style="background:var(--accent)"><span>75.6%</span></div></div></div>
+      <div class="bar-row"><div class="b-lbl">Comportamientos repetitivos o rutinarios</div><div class="b-track"><div class="b-fill" data-v="68.9" style="background:var(--green)"><span>68.9%</span></div></div></div>
+      <div class="bar-row"><div class="b-lbl">Alta inteligencia o habilidades especiales</div><div class="b-track"><div class="b-fill" data-v="44.4" style="background:var(--muted)"><span>44.4%</span></div></div></div>
+      <div class="bar-row"><div class="b-lbl">Dificultades de aprendizaje</div><div class="b-track"><div class="b-fill" data-v="40.0" style="background:#4a5568"><span>40.0%</span></div></div></div>
+      <div class="bar-row"><div class="b-lbl">Sensibilidad sensorial aumentada</div><div class="b-track"><div class="b-fill" data-v="28.9" style="background:#383e4a"><span>28.9%</span></div></div></div>
+    </div>
+
+    <div class="chart-box">
+      <div class="chart-label">B4 · Formación jurídica y preparación percibida</div>
+      <div class="donuts">
+        <div class="d-wrap">
+          <div class="d-sub">Abordaje en la formación jurídica</div>
+          <svg width="180" height="180" viewBox="0 0 180 180" style="overflow:visible">
+            <circle cx="90" cy="90" r="62" fill="none" stroke="var(--border)" stroke-width="24"/>
+            <circle cx="90" cy="90" r="62" fill="none" stroke="var(--danger)" stroke-width="24"
+              class="dseg" data-v="62.2" data-o="0"
+              style="transform:rotate(-90deg);transform-origin:center;transition:stroke-dasharray 1s ease .1s"/>
+            <circle cx="90" cy="90" r="62" fill="none" stroke="var(--accent)" stroke-width="24"
+              class="dseg" data-v="28.9" data-o="62.2"
+              style="transform:rotate(-90deg);transform-origin:center;transition:stroke-dasharray 1s ease .25s"/>
+            <circle cx="90" cy="90" r="62" fill="none" stroke="var(--accent2)" stroke-width="24"
+              class="dseg" data-v="8.9" data-o="91.1"
+              style="transform:rotate(-90deg);transform-origin:center;transition:stroke-dasharray 1s ease .4s"/>
+            <text x="90" y="86" text-anchor="middle" dominant-baseline="middle" font-family="DM Serif Display,serif" font-size="20" fill="var(--white)">62%</text>
+            <text x="90" y="103" text-anchor="middle" dominant-baseline="middle" font-family="DM Sans,sans-serif" font-size="9" fill="var(--muted)">Nunca</text>
+          </svg>
+          <div class="d-legend">
+            <div class="d-item"><div class="d-dot" style="background:var(--danger)"></div>Nunca — 62.2%</div>
+            <div class="d-item"><div class="d-dot" style="background:var(--accent)"></div>Solo tangencialmente — 28.9%</div>
+            <div class="d-item"><div class="d-dot" style="background:var(--accent2)"></div>En una asignatura — 8.9%</div>
+          </div>
+        </div>
+        <div class="d-wrap">
+          <div class="d-sub">Preparación profesional percibida</div>
+          <svg width="180" height="180" viewBox="0 0 180 180" style="overflow:visible">
+            <circle cx="90" cy="90" r="62" fill="none" stroke="var(--border)" stroke-width="24"/>
+            <circle cx="90" cy="90" r="62" fill="none" stroke="var(--danger)" stroke-width="24"
+              class="dseg" data-v="60.0" data-o="0"
+              style="transform:rotate(-90deg);transform-origin:center;transition:stroke-dasharray 1s ease .1s"/>
+            <circle cx="90" cy="90" r="62" fill="none" stroke="var(--accent)" stroke-width="24"
+              class="dseg" data-v="24.4" data-o="60.0"
+              style="transform:rotate(-90deg);transform-origin:center;transition:stroke-dasharray 1s ease .25s"/>
+            <circle cx="90" cy="90" r="62" fill="none" stroke="var(--green)" stroke-width="24"
+              class="dseg" data-v="15.6" data-o="84.4"
+              style="transform:rotate(-90deg);transform-origin:center;transition:stroke-dasharray 1s ease .4s"/>
+            <text x="90" y="86" text-anchor="middle" dominant-baseline="middle" font-family="DM Serif Display,serif" font-size="20" fill="var(--white)">82%</text>
+            <text x="90" y="103" text-anchor="middle" dominant-baseline="middle" font-family="DM Sans,sans-serif" font-size="9" fill="var(--muted)">Impreparado/a</text>
+          </svg>
+          <div class="d-legend">
+            <div class="d-item"><div class="d-dot" style="background:var(--danger)"></div>Nada preparado/a — 60.0%</div>
+            <div class="d-item"><div class="d-dot" style="background:var(--accent)"></div>Poco preparado/a — 24.4%</div>
+            <div class="d-item"><div class="d-dot" style="background:var(--green)"></div>Suficientemente — 15.6%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-box" style="margin-top:16px">
+      <div class="chart-label">B5 · Cambio más urgente en la formación jurídica (n = 45)</div>
+      <div class="bar-row"><div class="b-lbl">Capacitar al cuerpo docente</div><div class="b-track"><div class="b-fill" data-v="35.6" style="background:var(--accent2)"><span>35.6%</span></div></div></div>
+      <div class="bar-row"><div class="b-lbl">Incorporar contenidos en asignaturas</div><div class="b-track"><div class="b-fill" data-v="31.1" style="background:var(--green)"><span>31.1%</span></div></div></div>
+      <div class="bar-row"><div class="b-lbl">Crear una asignatura dedicada</div><div class="b-track"><div class="b-fill" data-v="17.8" style="background:var(--accent)"><span>17.8%</span></div></div></div>
+      <div class="bar-row"><div class="b-lbl">Talleres extracurriculares</div><div class="b-track"><div class="b-fill" data-v="13.3" style="background:var(--muted)"><span>13.3%</span></div></div></div>
+    </div>
+  </div>
+
+  <!-- TAB 05: DISCUSIÓN -->
+  <div class="tab-pane" id="tab-discusion">
+    <div class="find-item"><div class="find-n">01</div><div class="find-t">El conocimiento sobre neurodivergencia es <strong>fragmentario y mediáticamente construido</strong>. Solo el 18% conoce bien el término, mientras el 73% se informó por redes sociales. La universidad ocupa un rol marginal como fuente formativa, coherente con los hallazgos de Mackay & Barrientos (2022).</div></div>
+    <div class="find-item"><div class="find-n">02</div><div class="find-t">Las representaciones sobre el autismo son <strong>predominantemente deficitarias</strong>. El 44% asocia el autismo con alta inteligencia —el "mito del savant"— y el 22% lo confunde con esquizofrenia, evidenciando la influencia de representaciones mediáticas distorsionadas (Draaisma, 2009; Milton, 2012).</div></div>
+    <div class="find-item"><div class="find-n">03</div><div class="find-t">Existe una <strong>paradoja pedagógica central</strong>: el 84% reconoce la relevancia jurídica del tema, pero el 62% nunca lo ha visto en clase y el 82% se siente impreparado. Esta disonancia es la principal justificación para reformas curriculares urgentes.</div></div>
+    <div class="find-item"><div class="find-n">04</div><div class="find-t">El entorno universitario es percibido como <strong>inadecuado para estudiantes neurodivergentes</strong>: el 62% califica las condiciones como insuficientes o inexistentes, coherente con la literatura sobre culturas de alto rendimiento performativo en facultades de Derecho (Rodríguez & Espinoza, 2021).</div></div>
+    <div class="find-item"><div class="find-n">05</div><div class="find-t">La preferencia por la <strong>capacitación docente</strong> como cambio más urgente (36%) subraya que la transformación debe iniciarse en los actores con mayor poder pedagógico, sin perjuicio de la necesaria reforma del currículum formal.</div></div>
+  </div>
+
+  <!-- TAB 06: CONCLUSIONES -->
+  <div class="tab-pane" id="tab-conclusiones">
+    <div class="conc-grid">
+      <div class="conc-card"><span class="conc-n">1</span><p class="conc-t">El conocimiento sobre neurodivergencia es fragmentario, superficial y mediáticamente construido. La universidad no constituye el canal formativo primario en esta materia.</p></div>
+      <div class="conc-card"><span class="conc-n">2</span><p class="conc-t">Las representaciones sobre el autismo están dominadas por estereotipos deficitarios y el "mito del savant", con escasa presencia de la sensibilidad sensorial o las formas de comunicación alternativa.</p></div>
+      <div class="conc-card"><span class="conc-n">3</span><p class="conc-t">Las facultades de Derecho son percibidas como inadecuadas para el desarrollo académico de estudiantes neurodivergentes, señalando la necesidad de avanzar hacia modelos más inclusivos.</p></div>
+      <div class="conc-card"><span class="conc-n">4</span><p class="conc-t">Existe una paradoja pedagógica: los estudiantes reconocen la importancia del tema pero no han recibido formación al respecto y se sienten ampliamente impreparados profesionalmente.</p></div>
+      <div class="conc-card"><span class="conc-n">5</span><p class="conc-t">La formación jurídica sobre neurodivergencia deja de ser una opción pedagógica para convertirse en una exigencia de responsabilidad profesional ante la Ley N° 21.545 (2023).</p></div>
+    </div>
+  </div>
+
+  <!-- TAB 07: DATOS ABIERTOS -->
+  <div class="tab-pane" id="tab-datos">
+    <div class="card gap">
+      <div class="card-label">Ciencia abierta</div>
+      <p>Los materiales metodológicos y el conjunto de datos asociados a este estudio se encuentran disponibles en repositorios de acceso abierto, en coherencia con los principios de ciencia abierta y reproducibilidad. El proyecto del artículo se encuentra registrado bajo <strong style="color:var(--accent)">openicpsr-247056</strong>.</p>
+    </div>
+    <div class="repo-card">
+      <div class="repo-icon">📋</div>
+      <div>
+        <div class="repo-name">protocols.io</div>
+        <div class="repo-desc">Protocolo de registro (estilo PROSPERO) y protocolo operativo del estudio</div>
+        <div class="repo-doi">DOI: 10.17504/protocols.io.yxmvm8bqng3p/v1<br>
+          <a href="https://dx.doi.org/10.17504/protocols.io.yxmvm8bqng3p/v1" style="color:var(--accent2);font-family:'DM Mono',monospace;font-size:10px">https://dx.doi.org/10.17504/protocols.io.yxmvm8bqng3p/v1</a>
+        </div>
+      </div>
+    </div>
+    <div class="repo-card">
+      <div class="repo-icon">🗄️</div>
+      <div>
+        <div class="repo-name">Zenodo — CC BY 4.0</div>
+        <div class="repo-desc">Dataset anonimizado · Modelo de consentimiento informado · Cuestionario estructurado · SRQR checklist completado</div>
+        <div class="repo-doi">DOI: 10.5281/zenodo.19150079<br>
+          <a href="https://doi.org/10.5281/zenodo.19150079" style="color:var(--accent2);font-family:'DM Mono',monospace;font-size:10px">https://doi.org/10.5281/zenodo.19150079</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>Carrasco-Jiménez & García-Araya · 2025 · Sin financiamiento · Sin conflictos de interés</p>
+    <p>Aprobación Comité de Ética · Consentimiento informado · Datos anonimizados P01–P45 · SRQR · CROSS</p>
+  </footer>
+
+</div>
+
+<script>
+// Tab switching
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const id = this.dataset.tab;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    this.classList.add('active');
+    document.getElementById('tab-' + id).classList.add('active');
+    if (id === 'resultados') setTimeout(() => { animateBars(); animateDonuts(); }, 80);
+  });
+});
+
+// Counter animation
+function animateCounters() {
+  document.querySelectorAll('.stat-n').forEach(el => {
+    const target = parseInt(el.dataset.target);
+    const suffix = el.querySelector('sup') ? '%' : '';
+    let cur = 0; const step = target / 50;
+    const t = setInterval(() => {
+      cur = Math.min(cur + step, target);
+      el.innerHTML = Math.round(cur) + '<sup>%</sup>';
+      if (cur >= target) clearInterval(t);
+    }, 18);
+  });
+}
+
+// Bar animation
+function animateBars() {
+  document.querySelectorAll('.b-fill[data-v]').forEach(b => {
+    b.style.width = b.dataset.v + '%';
+  });
+}
+
+// Donut animation
+function animateDonuts() {
+  const C = 2 * Math.PI * 62;
+  document.querySelectorAll('.dseg').forEach(s => {
+    const v = parseFloat(s.dataset.v);
+    const o = parseFloat(s.dataset.o);
+    const dash = (v/100)*C, gap = C - dash;
+    const offset = -(o/100)*C;
+    s.style.strokeDasharray = `${dash} ${gap}`;
+    s.style.strokeDashoffset = offset;
+  });
+}
+
+// Init
+window.addEventListener('load', () => {
+  setTimeout(animateCounters, 300);
+  setTimeout(animateBars, 500);
+});
+</script>
+</body>
+</html>
